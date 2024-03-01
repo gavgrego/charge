@@ -6,10 +6,34 @@ import {
   useAddCharge,
   tempParsed,
   useDeleteCharge,
+  Charge,
 } from "../data/hooks/useCharges";
 import Papa, { ParseResult } from "papaparse";
 import dayjs from "dayjs";
-import ChargesTable from "./charges-table";
+import { DataTable } from "../components/datatable";
+import { CellContext, ColumnDef } from "@tanstack/react-table";
+import { Person } from "@phosphor-icons/react";
+
+enum ColAccessors {
+  date = "attributes.date",
+  description = "attributes.description",
+  amount = "attributes.amount",
+}
+
+export const columns: ColumnDef<Charge>[] = [
+  {
+    accessorKey: ColAccessors.date,
+    header: "Date",
+  },
+  {
+    accessorKey: ColAccessors.description,
+    header: "Description",
+  },
+  {
+    accessorKey: ColAccessors.amount,
+    header: "Amount",
+  },
+];
 
 const Charges = () => {
   const [file, setFile] = useState<File | undefined>();
@@ -41,7 +65,11 @@ const Charges = () => {
       <input id="image" type="file" name="image" onChange={handleOnChange} />
       <button onClick={parse}>parse</button>
       {isError && <div>{error.message}</div>}
-      {isLoading ? <div>loading...</div> : <ChargesTable data={data || []} />}
+      {isLoading ? (
+        <div>loading...</div>
+      ) : (
+        <DataTable columns={columns} data={data || []} />
+      )}
     </div>
   );
 };

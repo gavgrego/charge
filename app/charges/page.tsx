@@ -4,7 +4,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { getCountries } from "../data/hooks/useGetCountries";
-import Countries from "./charges";
+import Charges from "./charges";
 
 const ChargesPage = async (): Promise<React.ReactElement> => {
   const queryClient = new QueryClient();
@@ -18,7 +18,7 @@ const ChargesPage = async (): Promise<React.ReactElement> => {
     // Neat! Serialization is now as easy as passing props.
     // HydrationBoundary is a Client Component, so hydration will happen there.
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Countries />
+      <Charges />
     </HydrationBoundary>
   );
 };
