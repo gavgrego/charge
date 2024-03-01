@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import { DataTable } from "../components/datatable";
 import { CellContext, ColumnDef } from "@tanstack/react-table";
 import { Person } from "@phosphor-icons/react";
+import formatUsCurrency from "../utils/formatUsCurrency";
 
 enum ColAccessors {
   date = "attributes.date",
@@ -30,8 +31,16 @@ export const columns: ColumnDef<Charge>[] = [
     header: "Description",
   },
   {
+    id: ColAccessors.amount,
     accessorKey: ColAccessors.amount,
     header: "Amount",
+    cell: ({ row }) => {
+      return (
+        <div className="text-right font-medium">
+          {formatUsCurrency(row.getValue(ColAccessors.amount))}
+        </div>
+      );
+    },
   },
 ];
 
@@ -68,7 +77,7 @@ const Charges = () => {
       {isLoading ? (
         <div>loading...</div>
       ) : (
-        <DataTable columns={columns} data={data || []} />
+        <DataTable columns={columns} data={data || []} pagination={true} />
       )}
     </div>
   );

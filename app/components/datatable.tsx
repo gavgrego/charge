@@ -5,6 +5,7 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  getPaginationRowModel,
 } from "@tanstack/react-table";
 
 import {
@@ -16,21 +17,24 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import formatUsCurrency from "../utils/formatUsCurrency";
+import { Button } from "@/components/ui/button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  pagination: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  pagination,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
   });
 
   return (
@@ -63,12 +67,7 @@ export function DataTable<TData, TValue>({
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
-                    {cell.getContext().column.columnDef.header === "Amount"
-                      ? formatUsCurrency(String(cell.getValue()))
-                      : flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
               </TableRow>
@@ -82,6 +81,28 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+      {pagination && (
+        <div>
+          <div className="flex items-center justify-end space-x-2 py-4">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
