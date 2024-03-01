@@ -3,10 +3,19 @@ import {
   TableOptions,
   ColumnDef,
   createColumnHelper,
-  Table,
   getCoreRowModel,
   flexRender,
 } from "@tanstack/react-table";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
 import { Charge } from "../data/hooks/useCharges";
 
 type RowCharge = {
@@ -51,47 +60,35 @@ const ChargesTable = ({ data }: ChargesTableProps) => {
 
   return (
     <div>
-      <table>
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => {
-            return (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header, i) => {
-                  return (
-                    <th id={header.id} key={i}>
-                      {" "}
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </th>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => {
-            return (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => {
-                  return (
-                    <td key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {table.getHeaderGroups().map((headerGroup, i) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={i} className="w-[100px]">
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows.map((row, index) => (
+            <TableRow key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <TableCell key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };
