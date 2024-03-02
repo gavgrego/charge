@@ -17,7 +17,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Button } from "@/components/ui/button";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+} from "@/components/ui/pagination";
+import { useMemo } from "react";
+import {
+  CaretDoubleLeft,
+  CaretDoubleRight,
+  CaretLeft,
+  CaretRight,
+} from "@phosphor-icons/react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -36,6 +47,10 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
+
+  const totalPages = Math.ceil(
+    table.getRowCount() / table.getState().pagination.pageSize
+  );
 
   return (
     <>
@@ -83,24 +98,39 @@ export function DataTable<TData, TValue>({
       </Table>
       {pagination && (
         <div>
-          <div className="flex items-center justify-end space-x-2 py-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              Next
-            </Button>
-          </div>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem className="cursor-pointer">
+                <CaretDoubleLeft
+                  size={32}
+                  onClick={() => table.firstPage()}
+                  aria-disabled={table.getCanPreviousPage()}
+                />
+              </PaginationItem>
+              <PaginationItem className="cursor-pointer">
+                <CaretLeft
+                  size={32}
+                  onClick={() => table.previousPage()}
+                  aria-disabled={table.getCanPreviousPage()}
+                />
+              </PaginationItem>
+
+              <PaginationItem className="cursor-pointer">
+                <CaretRight
+                  size={32}
+                  onClick={() => table.nextPage()}
+                  aria-disabled={table.getCanNextPage()}
+                />
+              </PaginationItem>
+              <PaginationItem className="cursor-pointer">
+                <CaretDoubleRight
+                  size={32}
+                  onClick={() => table.lastPage()}
+                  aria-disabled={table.getCanNextPage()}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       )}
     </>
