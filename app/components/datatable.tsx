@@ -22,7 +22,6 @@ import {
   PaginationContent,
   PaginationItem,
 } from "@/components/ui/pagination";
-import { useMemo } from "react";
 import {
   CaretDoubleLeft,
   CaretDoubleRight,
@@ -53,8 +52,8 @@ export function DataTable<TData, TValue>({
   );
 
   return (
-    <>
-      <Table className="rounded-md border">
+    <div className="rounded-md border">
+      <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -97,19 +96,19 @@ export function DataTable<TData, TValue>({
         </TableBody>
       </Table>
       {pagination && (
-        <div>
+        <div className="mt-2">
           <Pagination>
             <PaginationContent>
               <PaginationItem className="cursor-pointer">
                 <CaretDoubleLeft
-                  size={32}
+                  size={24}
                   onClick={() => table.firstPage()}
                   aria-disabled={table.getCanPreviousPage()}
                 />
               </PaginationItem>
               <PaginationItem className="cursor-pointer">
                 <CaretLeft
-                  size={32}
+                  size={24}
                   onClick={() => table.previousPage()}
                   aria-disabled={table.getCanPreviousPage()}
                 />
@@ -117,14 +116,14 @@ export function DataTable<TData, TValue>({
 
               <PaginationItem className="cursor-pointer">
                 <CaretRight
-                  size={32}
+                  size={24}
                   onClick={() => table.nextPage()}
                   aria-disabled={table.getCanNextPage()}
                 />
               </PaginationItem>
               <PaginationItem className="cursor-pointer">
                 <CaretDoubleRight
-                  size={32}
+                  size={24}
                   onClick={() => table.lastPage()}
                   aria-disabled={table.getCanNextPage()}
                 />
@@ -133,6 +132,6 @@ export function DataTable<TData, TValue>({
           </Pagination>
         </div>
       )}
-    </>
+    </div>
   );
 }

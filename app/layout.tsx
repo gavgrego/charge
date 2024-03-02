@@ -23,7 +23,7 @@ export default function RootLayout({
         <Providers>
           <div className="flex flex-row gap-10 items-start">
             <Sidebar />
-            {children}
+            <div className="my-8">{children}</div>
           </div>
         </Providers>
       </body>

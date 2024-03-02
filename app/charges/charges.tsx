@@ -13,6 +13,7 @@ import { DataTable } from "../components/datatable";
 import { ColumnDef } from "@tanstack/react-table";
 import formatUsCurrency from "../utils/formatUsCurrency";
 import { Button } from "@/components/ui/button";
+import UploadCharges from "../components/upload-charges/upload-charges";
 
 enum ColAccessors {
   date = "attributes.date",
@@ -22,8 +23,6 @@ enum ColAccessors {
 }
 
 const Charges = () => {
-  const [file, setFile] = useState<File | undefined>();
-  const { mutateAsync } = useAddCharge();
   const { mutate: deleteCharge } = useDeleteCharge();
   const { data, isLoading, isError, error } = useGetCharges();
 
@@ -62,29 +61,9 @@ const Charges = () => {
     },
   ];
 
-  function handleOnChange(e: React.FormEvent<HTMLInputElement>) {
-    const target = e.target as HTMLInputElement & {
-      files: FileList;
-    };
-
-    setFile(target.files[0]);
-  }
-
-  const parse = () => {
-    Papa.parse(file as File, {
-      complete: function (results: ParseResult<tempParsed>) {
-        const charges = results.data;
-        charges.forEach((charge) => {
-          return mutateAsync({ ...charge });
-        });
-      },
-    });
-  };
-
   return (
     <div>
-      <input id="image" type="file" name="image" onChange={handleOnChange} />
-      <button onClick={parse}>parse</button>
+      <UploadCharges />
       {isError && <div>{error.message}</div>}
       {isLoading ? (
         <div>loading...</div>
