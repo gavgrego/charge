@@ -1,19 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import {
   useGetCharges,
-  useAddCharge,
-  tempParsed,
   useDeleteCharge,
   Charge,
 } from "../data/hooks/useCharges";
-import Papa, { ParseResult } from "papaparse";
 import { DataTable } from "../components/datatable";
 import { ColumnDef } from "@tanstack/react-table";
 import formatUsCurrency from "../utils/formatUsCurrency";
 import { Button } from "@/components/ui/button";
-import UploadCharges from "../components/upload-charges/upload-charges";
 
 enum ColAccessors {
   date = "attributes.date",
@@ -63,7 +58,6 @@ const Charges = () => {
 
   return (
     <div>
-      <UploadCharges />
       {isError && <div>{error.message}</div>}
       {isLoading ? (
         <div>loading...</div>

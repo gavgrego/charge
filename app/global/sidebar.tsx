@@ -1,6 +1,7 @@
 "use client";
 
 import { Cardholder } from "@phosphor-icons/react";
+import UploadCharges from "../components/upload-charges/upload-charges";
 
 const Sidebar = () => {
   return (
@@ -20,6 +21,7 @@ const Sidebar = () => {
           </li>
         </ul>
       </div>
+      <UploadCharges />
     </div>
   );
 };
