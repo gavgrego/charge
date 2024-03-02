@@ -92,9 +92,12 @@ export const useAddCharge = (
   });
 };
 
-export const useDeleteCharge = (
-  id?: number
-): UseMutationResult<number, Error, number, unknown> => {
+export const useDeleteCharge = (): UseMutationResult<
+  number,
+  Error,
+  number,
+  unknown
+> => {
   const queryClient = useQueryClient();
 
   return useMutation({

@@ -9,46 +9,58 @@ import {
   Charge,
 } from "../data/hooks/useCharges";
 import Papa, { ParseResult } from "papaparse";
-import dayjs from "dayjs";
 import { DataTable } from "../components/datatable";
-import { CellContext, ColumnDef } from "@tanstack/react-table";
-import { Person } from "@phosphor-icons/react";
+import { ColumnDef } from "@tanstack/react-table";
 import formatUsCurrency from "../utils/formatUsCurrency";
+import { Button } from "@/components/ui/button";
 
 enum ColAccessors {
   date = "attributes.date",
   description = "attributes.description",
   amount = "attributes.amount",
+  id = "id",
 }
-
-export const columns: ColumnDef<Charge>[] = [
-  {
-    accessorKey: ColAccessors.date,
-    header: "Date",
-  },
-  {
-    accessorKey: ColAccessors.description,
-    header: "Description",
-  },
-  {
-    id: ColAccessors.amount,
-    accessorKey: ColAccessors.amount,
-    header: "Amount",
-    cell: ({ row }) => {
-      return (
-        <div className="text-right font-medium">
-          {formatUsCurrency(row.getValue(ColAccessors.amount))}
-        </div>
-      );
-    },
-  },
-];
 
 const Charges = () => {
   const [file, setFile] = useState<File | undefined>();
   const { mutateAsync } = useAddCharge();
-  const { mutate } = useDeleteCharge();
+  const { mutate: deleteCharge } = useDeleteCharge();
   const { data, isLoading, isError, error } = useGetCharges();
+
+  const columns: ColumnDef<Charge>[] = [
+    {
+      accessorKey: ColAccessors.date,
+      header: "Date",
+    },
+    {
+      accessorKey: ColAccessors.description,
+      header: "Description",
+    },
+    {
+      id: ColAccessors.amount,
+      accessorKey: ColAccessors.amount,
+      header: "Amount",
+      cell: ({ row }) => {
+        return (
+          <div className="text-right font-medium">
+            {formatUsCurrency(row.getValue(ColAccessors.amount))}
+          </div>
+        );
+      },
+    },
+    {
+      id: ColAccessors.id,
+      accessorKey: ColAccessors.id,
+      header: undefined,
+      cell: ({ row }) => {
+        return (
+          <Button onClick={() => deleteCharge(row.getValue(ColAccessors.id))}>
+            Delete
+          </Button>
+        );
+      },
+    },
+  ];
 
   function handleOnChange(e: React.FormEvent<HTMLInputElement>) {
     const target = e.target as HTMLInputElement & {
