@@ -6,6 +6,8 @@ import {
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
+  getSortedRowModel,
+  type Table as TTable,
 } from "@tanstack/react-table";
 
 import {
@@ -28,25 +30,18 @@ import {
   CaretLeft,
   CaretRight,
 } from "@phosphor-icons/react";
+import { Charge } from "../data/hooks/useCharges";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+type DataTableProps<TData, TValue> = {
+  table: TTable<Charge>;
   pagination: boolean;
-}
+};
 
 export function DataTable<TData, TValue>({
-  columns,
-  data,
   pagination,
+  table,
+  ...props
 }: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-  });
-
   const totalPages = Math.ceil(
     table.getRowCount() / table.getState().pagination.pageSize
   );
@@ -67,6 +62,8 @@ export function DataTable<TData, TValue>({
                             header.column.columnDef.header,
                             header.getContext()
                           )}
+
+                      {header.getContext().column.getIsSorted()}
                     </TableHead>
                   );
                 })}
@@ -93,7 +90,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={table.getAllColumns().length}
                   className="h-24 text-center"
                 >
                   No results.

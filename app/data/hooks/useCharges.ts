@@ -113,12 +113,7 @@ export const useDeleteCharge = (): UseMutationResult<
   });
 };
 
-export const useGetCharges = (): UseQueryResult<
-  // fix this time with types generated from strapi
-
-  Charge[],
-  Error
-> => {
+export const useGetCharges = (): UseQueryResult<Charge[], Error> => {
   return useQuery({
     queryKey: ["getCharges"],
     queryFn: getCharges,

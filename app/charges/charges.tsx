@@ -1,60 +1,26 @@
 "use client";
 
-import {
-  useGetCharges,
-  useDeleteCharge,
-  Charge,
-} from "../data/hooks/useCharges";
+import { useGetCharges } from "../data/hooks/useCharges";
 import { DataTable } from "../components/datatable";
-import { ColumnDef } from "@tanstack/react-table";
-import formatUsCurrency from "../utils/formatUsCurrency";
-import { Button } from "@/components/ui/button";
-
-enum ColAccessors {
-  date = "attributes.date",
-  description = "attributes.description",
-  amount = "attributes.amount",
-  id = "id",
-}
+import useChargesTable from "../data/hooks/useChargesTable";
+import {
+  useReactTable,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+} from "@tanstack/react-table";
 
 const Charges = () => {
-  const { mutate: deleteCharge } = useDeleteCharge();
   const { data, isLoading, isError, error } = useGetCharges();
+  const { columns } = useChargesTable();
 
-  const columns: ColumnDef<Charge>[] = [
-    {
-      accessorKey: ColAccessors.date,
-      header: "Date",
-    },
-    {
-      accessorKey: ColAccessors.description,
-      header: "Description",
-    },
-    {
-      id: ColAccessors.amount,
-      accessorKey: ColAccessors.amount,
-      header: "Amount",
-      cell: ({ row }) => {
-        return (
-          <div className="text-right font-medium">
-            {formatUsCurrency(row.getValue(ColAccessors.amount))}
-          </div>
-        );
-      },
-    },
-    {
-      id: ColAccessors.id,
-      accessorKey: ColAccessors.id,
-      header: undefined,
-      cell: ({ row }) => {
-        return (
-          <Button onClick={() => deleteCharge(row.getValue(ColAccessors.id))}>
-            Delete
-          </Button>
-        );
-      },
-    },
-  ];
+  const table = useReactTable({
+    data: data ? data : [],
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+  });
 
   return (
     <div>
@@ -62,7 +28,7 @@ const Charges = () => {
       {isLoading ? (
         <div>loading...</div>
       ) : (
-        <DataTable columns={columns} data={data || []} pagination={true} />
+        <DataTable table={table} pagination={true} />
       )}
     </div>
   );
