@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {
+  Column,
   ColumnDef,
   SortingState,
   getCoreRowModel,
@@ -22,6 +23,22 @@ const useChargesTable = <T,>(data: T[] | undefined) => {
     id = "id",
   }
 
+  const BasicSorting = (column: Column<T, unknown>): JSX.Element => {
+    return (
+      <>
+        {column.getIsSorted() === false && (
+          <ArrowsDownUp className="pl-1" size={16} />
+        )}
+        {column.getIsSorted() === "asc" ? (
+          <ArrowUp className="pl-1" size={16} />
+        ) : null}
+        {column.getIsSorted() === "desc" ? (
+          <ArrowDown className="pl-1" size={16} />
+        ) : null}
+      </>
+    );
+  };
+
   const columns: ColumnDef<T>[] = [
     {
       accessorKey: ColAccessors.date,
@@ -30,15 +47,7 @@ const useChargesTable = <T,>(data: T[] | undefined) => {
         return (
           <Button variant="ghost" onClick={() => column.toggleSorting()}>
             Date
-            {column.getIsSorted() === false && (
-              <ArrowsDownUp className="pl-1" size={16} />
-            )}
-            {column.getIsSorted() === "asc" && (
-              <ArrowUp className="pl-1" size={16} />
-            )}
-            {column.getIsSorted() === "desc" && (
-              <ArrowDown className="pl-1" size={16} />
-            )}
+            <BasicSorting {...column} />
           </Button>
         );
       },
@@ -50,15 +59,7 @@ const useChargesTable = <T,>(data: T[] | undefined) => {
         return (
           <Button variant="ghost" onClick={() => column.toggleSorting()}>
             Description
-            {column.getIsSorted() === false && (
-              <ArrowsDownUp className="pl-1" size={16} />
-            )}
-            {column.getIsSorted() === "asc" && (
-              <ArrowUp className="pl-1" size={16} />
-            )}
-            {column.getIsSorted() === "desc" && (
-              <ArrowDown className="pl-1" size={16} />
-            )}
+            <BasicSorting {...column} />
           </Button>
         );
       },
@@ -71,15 +72,7 @@ const useChargesTable = <T,>(data: T[] | undefined) => {
         return (
           <Button variant="ghost" onClick={() => column.toggleSorting()}>
             Amount
-            {column.getIsSorted() === false && (
-              <ArrowsDownUp className="pl-1" size={16} />
-            )}
-            {column.getIsSorted() === "asc" && (
-              <ArrowUp className="pl-1" size={16} />
-            )}
-            {column.getIsSorted() === "desc" && (
-              <ArrowDown className="pl-1" size={16} />
-            )}
+            <BasicSorting {...column} />
           </Button>
         );
       },

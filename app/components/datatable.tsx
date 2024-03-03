@@ -50,8 +50,6 @@ export function DataTable<TData, TValue>({
                             header.column.columnDef.header,
                             header.getContext()
                           )}
-
-                      {header.getContext().column.getIsSorted()}
                     </TableHead>
                   );
                 })}
