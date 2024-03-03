@@ -1,10 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { Charge, deleteCharge } from "./useCharges";
+import {
+  ColumnDef,
+  SortingState,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { deleteCharge } from "./useCharges";
 import formatUsCurrency from "@/app/utils/formatUsCurrency";
 import { useState } from "react";
 
-const useChargesTable = () => {
+const useChargesTable = <T,>(data: T[] | undefined) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   enum ColAccessors {
@@ -14,7 +21,7 @@ const useChargesTable = () => {
     id = "id",
   }
 
-  const columns: ColumnDef<Charge>[] = [
+  const columns: ColumnDef<T>[] = [
     {
       accessorKey: ColAccessors.date,
       enableSorting: true,
@@ -52,10 +59,23 @@ const useChargesTable = () => {
     },
   ];
 
+  const table = useReactTable({
+    data: data ? data : [],
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+    state: {
+      sorting,
+    },
+  });
+
   return {
     columns,
     sorting,
     setSorting,
+    table,
   };
 };
 

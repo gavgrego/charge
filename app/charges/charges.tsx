@@ -12,15 +12,7 @@ import {
 
 const Charges = () => {
   const { data, isLoading, isError, error } = useGetCharges();
-  const { columns } = useChargesTable();
-
-  const table = useReactTable({
-    data: data ? data : [],
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-  });
+  const { columns, setSorting, sorting, table } = useChargesTable(data);
 
   return (
     <div>
