@@ -10,6 +10,7 @@ import {
 import { deleteCharge } from "./useCharges";
 import formatUsCurrency from "@/app/utils/formatUsCurrency";
 import { useState } from "react";
+import { ArrowsDownUp, ArrowUp, ArrowDown } from "@phosphor-icons/react";
 
 const useChargesTable = <T,>(data: T[] | undefined) => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -25,18 +26,63 @@ const useChargesTable = <T,>(data: T[] | undefined) => {
     {
       accessorKey: ColAccessors.date,
       enableSorting: true,
-      header: "Date",
+      header: ({ column }) => {
+        return (
+          <Button variant="ghost" onClick={() => column.toggleSorting()}>
+            Date
+            {column.getIsSorted() === false && (
+              <ArrowsDownUp className="pl-1" size={16} />
+            )}
+            {column.getIsSorted() === "asc" && (
+              <ArrowUp className="pl-1" size={16} />
+            )}
+            {column.getIsSorted() === "desc" && (
+              <ArrowDown className="pl-1" size={16} />
+            )}
+          </Button>
+        );
+      },
     },
     {
       accessorKey: ColAccessors.description,
       enableSorting: true,
-      header: "Description",
+      header: ({ column }) => {
+        return (
+          <Button variant="ghost" onClick={() => column.toggleSorting()}>
+            Description
+            {column.getIsSorted() === false && (
+              <ArrowsDownUp className="pl-1" size={16} />
+            )}
+            {column.getIsSorted() === "asc" && (
+              <ArrowUp className="pl-1" size={16} />
+            )}
+            {column.getIsSorted() === "desc" && (
+              <ArrowDown className="pl-1" size={16} />
+            )}
+          </Button>
+        );
+      },
     },
     {
       id: ColAccessors.amount,
       accessorKey: ColAccessors.amount,
       enableSorting: true,
-      header: "Amount",
+      header: ({ column }) => {
+        return (
+          <Button variant="ghost" onClick={() => column.toggleSorting()}>
+            Amount
+            {column.getIsSorted() === false && (
+              <ArrowsDownUp className="pl-1" size={16} />
+            )}
+            {column.getIsSorted() === "asc" && (
+              <ArrowUp className="pl-1" size={16} />
+            )}
+            {column.getIsSorted() === "desc" && (
+              <ArrowDown className="pl-1" size={16} />
+            )}
+          </Button>
+        );
+      },
       cell: ({ row }) => {
         return (
           <div className="text-right font-medium">

@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-  getPaginationRowModel,
-  getSortedRowModel,
-  type Table as TTable,
-} from "@tanstack/react-table";
+import { flexRender, type Table as TTable } from "@tanstack/react-table";
 
 import {
   Table,
@@ -42,13 +34,9 @@ export function DataTable<TData, TValue>({
   table,
   ...props
 }: DataTableProps<TData, TValue>) {
-  const totalPages = Math.ceil(
-    table.getRowCount() / table.getState().pagination.pageSize
-  );
-
   return (
-    <div>
-      <div className="rounded-md border">
+    <>
+      <div className="rounded-md border w-[800px]">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -137,6 +125,6 @@ export function DataTable<TData, TValue>({
           </Pagination>
         </div>
       )}
-    </div>
+    </>
   );
 }
