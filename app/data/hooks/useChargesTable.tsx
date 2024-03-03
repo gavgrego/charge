@@ -41,6 +41,7 @@ const useChargesTable = <T,>(data: T[] | undefined) => {
 
   const columns: ColumnDef<T>[] = [
     {
+      id: ColAccessors.date,
       accessorKey: ColAccessors.date,
       enableSorting: true,
       header: ({ column }) => {
@@ -49,6 +50,11 @@ const useChargesTable = <T,>(data: T[] | undefined) => {
             Date
             <BasicSorting {...column} />
           </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <div className="font-medium">{row.getValue(ColAccessors.date)}</div>
         );
       },
     },
@@ -78,7 +84,7 @@ const useChargesTable = <T,>(data: T[] | undefined) => {
       },
       cell: ({ row }) => {
         return (
-          <div className="text-right font-medium">
+          <div className="font-medium">
             {formatUsCurrency(row.getValue(ColAccessors.amount))}
           </div>
         );
