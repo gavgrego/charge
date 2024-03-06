@@ -1,11 +1,15 @@
-module.exports = {
-  charges: {
-    output: {
-      mode: "tags-split",
-      target: "./data/api",
-      schemas: "src/model",
-      client: "react-query",
-    },
+import { defineConfig } from "orval";
+export default defineConfig({
+  strapi: {
     input: "./data/openapi.json",
+    output: {
+      target: "./data/api",
+      client: "react-query",
+      mode: "tags-split",
+      clean: true,
+    },
+    hooks: {
+      afterAllFilesWrite: "npx prettier --write",
+    },
   },
-};
+});
