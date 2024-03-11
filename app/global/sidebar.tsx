@@ -6,7 +6,7 @@ import UploadCharges from "../components/upload-charges/upload-charges";
 const Sidebar = () => {
   return (
     <div>
-      <div className="flex flex-col gap-10 px-8">
+      <div className="flex flex-col gap-2 px-8">
         <Cardholder size={128} weight="fill" />
         <ul>
           <li>
@@ -20,8 +20,8 @@ const Sidebar = () => {
             </a>
           </li>
         </ul>
+        <UploadCharges />
       </div>
-      <UploadCharges />
     </div>
   );
 };

@@ -56,7 +56,7 @@ const useChargesTable = <T,>(data: T[] | undefined) => {
       },
       cell: ({ row }) => {
         return (
-          <div className="font-medium">{row.getValue(ColAccessors.date)}</div>
+          <div className="font-semibold">{row.getValue(ColAccessors.date)}</div>
         );
       },
     },
@@ -85,9 +85,14 @@ const useChargesTable = <T,>(data: T[] | undefined) => {
         );
       },
       cell: ({ row }) => {
+        const value: number = row.getValue(ColAccessors.amount);
         return (
           <div className="font-medium">
-            {formatUsCurrency(row.getValue(ColAccessors.amount))}
+            <span
+              className={`${value > 0 ? "text-red-600" : "text-green-600"}`}
+            >
+              {formatUsCurrency(value)}
+            </span>
           </div>
         );
       },

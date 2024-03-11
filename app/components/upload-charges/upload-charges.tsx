@@ -1,6 +1,10 @@
 import { useAddCharge, tempParsed } from "@/app/data/hooks/useCharges";
 import Papa, { ParseResult } from "papaparse";
 import { useState } from "react";
+
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
 const UploadCharges = () => {
   const [file, setFile] = useState<File | undefined>();
   const { mutateAsync } = useAddCharge();
@@ -25,10 +29,10 @@ const UploadCharges = () => {
   };
 
   return (
-    <>
-      <input id="image" type="file" name="image" onChange={handleOnChange} />
-      <button onClick={parse}>parse</button>
-    </>
+    <div className="grid w-full max-w-sm items-center gap-1.5">
+      <Label htmlFor="picture">Upload some charges!</Label>
+      <Input id="picture" type="file" onChange={handleOnChange} accept=".csv" />
+    </div>
   );
 };
 
