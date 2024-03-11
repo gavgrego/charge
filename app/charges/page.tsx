@@ -3,16 +3,10 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { getCountries } from "../data/hooks/useGetCountries";
 import Charges from "./charges";
 
 const ChargesPage = async (): Promise<React.ReactElement> => {
   const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({
-    queryKey: ["posts"],
-    queryFn: getCountries,
-  });
 
   return (
     // Neat! Serialization is now as easy as passing props.

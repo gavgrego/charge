@@ -12,9 +12,11 @@ import { deleteCharge } from "./useCharges";
 import formatUsCurrency from "@/app/utils/formatUsCurrency";
 import { useState } from "react";
 import { ArrowsDownUp, ArrowUp, ArrowDown } from "@phosphor-icons/react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const useChargesTable = <T,>(data: T[] | undefined) => {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const queryClient = useQueryClient();
 
   enum ColAccessors {
     date = "attributes.date",
@@ -96,7 +98,13 @@ const useChargesTable = <T,>(data: T[] | undefined) => {
       header: undefined,
       cell: ({ row }) => {
         return (
-          <Button onClick={() => deleteCharge(row.getValue(ColAccessors.id))}>
+          <Button
+            onClick={() =>
+              deleteCharge(row.getValue(ColAccessors.id)).then(() =>
+                queryClient.invalidateQueries({ queryKey: ["getCharges"] })
+              )
+            }
+          >
             Delete
           </Button>
         );

@@ -101,15 +101,9 @@ export const useDeleteCharge = (): UseMutationResult<
   number,
   unknown
 > => {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (id) => {
       return deleteCharge(id);
-    },
-    onError: (data) => {},
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["getCharges"] });
     },
   });
 };
