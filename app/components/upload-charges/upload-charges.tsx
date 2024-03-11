@@ -1,23 +1,16 @@
 import { useAddCharge, tempParsed } from "@/app/data/hooks/useCharges";
 import Papa, { ParseResult } from "papaparse";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Loading from "@/app/global/loading";
 
 const UploadCharges = () => {
   const [file, setFile] = useState<File | undefined>();
-  const { mutateAsync } = useAddCharge();
+  const { mutateAsync, isPending } = useAddCharge();
 
-  function handleOnChange(e: React.FormEvent<HTMLInputElement>) {
-    const target = e.target as HTMLInputElement & {
-      files: FileList;
-    };
-
-    setFile(target.files[0]);
-  }
-
-  const parse = () => {
+  const parse = useCallback(() => {
     Papa.parse(file as File, {
       complete: function (results: ParseResult<tempParsed>) {
         const charges = results.data;
@@ -26,12 +19,41 @@ const UploadCharges = () => {
         });
       },
     });
-  };
+  }, [file, mutateAsync]);
+
+  useEffect(() => {
+    if (file) {
+      parse();
+    }
+  }, [file, parse]);
+
+  async function handleOnChange(
+    e: React.FormEvent<HTMLInputElement>
+  ): Promise<void> {
+    const target = e.target as HTMLInputElement & {
+      files: FileList;
+    };
+
+    setFile(target.files[0]);
+  }
 
   return (
     <div className="grid w-full max-w-sm items-center gap-1.5">
-      <Label htmlFor="picture">Upload some charges!</Label>
-      <Input id="picture" type="file" onChange={handleOnChange} accept=".csv" />
+      {isPending ? (
+        <div>
+          <Loading />
+        </div>
+      ) : (
+        <>
+          <Label htmlFor="picture">Upload some charges!</Label>
+          <Input
+            id="picture"
+            type="file"
+            onChange={handleOnChange}
+            accept=".csv"
+          />
+        </>
+      )}
     </div>
   );
 };

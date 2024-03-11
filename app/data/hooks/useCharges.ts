@@ -65,9 +65,11 @@ export const deleteCharge = async (id: number) => {
   return await response.json();
 };
 
-export const getCharges = async () => {
+export const getCharges = async (month?: string, year?: string) => {
+  // get only current year and month by default
+
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/charges`,
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/charges/?filters[date][$gte]=${year}-${month}-01&filters[date][$lte]=${year}-${month}-31`,
     {
       method: "GET",
       headers: {
@@ -96,7 +98,7 @@ export const useAddCharge = (
       });
     },
     onError: () => {
-      throw `There was an error adding charge ${data}`;
+      throw `There was an error adding charge: ${data}`;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getCharges"] });
@@ -117,10 +119,13 @@ export const useDeleteCharge = (): UseMutationResult<
   });
 };
 
-export const useGetCharges = (): UseQueryResult<Charge[], Error> => {
+export const useGetCharges = (
+  month: string = dayjs(new Date()).format("MM"),
+  year: string = dayjs(new Date()).format("YYYY")
+): UseQueryResult<Charge[], Error> => {
   return useQuery({
-    queryKey: ["getCharges"],
-    queryFn: getCharges,
+    queryKey: ["getCharges", month, year],
+    queryFn: () => getCharges(month, year),
     refetchOnWindowFocus: true,
   });
 };
