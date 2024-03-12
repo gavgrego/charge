@@ -2,18 +2,18 @@
   "name": "passporter",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "workspaces": [
     "apps/*"
   ],
   "scripts": {
-    "dev": "turbo run dev --no-cache --parallel --continue",
     "build": "turbo run build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "turbo run dev --no-cache --parallel --continue",
+    "lint": "next lint",
+    "start": "next start"
   },
   "devDependencies": {
     "turbo": "latest"
   },
-  "type": "module",
   "packageManager": "yarn@1.22.19"
 }

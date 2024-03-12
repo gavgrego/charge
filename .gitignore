@@ -12,9 +12,15 @@
 
 # next.js
 /.next/
-/.turbo/
+/.turbo
 apps/next/.next/
 apps/next/.turbo/
+
+
+# strapi
+/apps/strapi/node_modules
+/apps/strapi/build
+
 
 /out/
 /apps/next/node_modules
@@ -35,6 +41,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+
 
 # typescript
 *.tsbuildinfo
