@@ -1,3 +1,3 @@
 ### Charge - Credit Card Expense Management for Couples
 
-Built with NextJS leveraging TanStack Query/Table and ShadCN, among others.
+Built with NextJS and Strapi, in conjunction w/ Turborepo.  Leveraging TanStack Query/Table and ShadCN, among others.
