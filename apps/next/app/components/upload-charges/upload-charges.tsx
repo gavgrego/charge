@@ -1,10 +1,10 @@
-import { useAddCharge, tempParsed } from "@/app/data/hooks/useCharges";
+import { useAddCharge, tempParsed } from "../../data/hooks/useCharges";
 import Papa, { ParseResult } from "papaparse";
 import { useCallback, useEffect, useState } from "react";
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Loading from "@/app/global/loading";
+import { Input } from "../../../components/ui/input";
+import { Label } from "../../../components/ui/label";
+import Loading from "../../global/loading";
 
 const UploadCharges = () => {
   const [file, setFile] = useState<File | undefined>();
