@@ -6,8 +6,8 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "turbo dev",
-    "build": "next build",
+    "dev": "turbo run dev --no-cache --parallel --continue",
+    "build": "turbo run build",
     "start": "next start",
     "lint": "next lint"
   },

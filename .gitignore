@@ -12,6 +12,7 @@
 
 # next.js
 /.next/
+/.turbo/
 apps/next/.next/
 apps/next/.turbo/
 
@@ -34,7 +35,6 @@ yarn-error.log*
 
 # vercel
 .vercel
-turbo.json
 
 # typescript
 *.tsbuildinfo
