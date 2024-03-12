@@ -20,7 +20,7 @@ module.exports = {
       },
       "x-strapi-config": {
         // Leave empty to ignore plugins during generation
-        plugins: ["upload", "users-permissions"],
+        plugins: [],
         path: "/documentation",
       },
       servers: [
