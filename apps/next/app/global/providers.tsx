@@ -3,6 +3,8 @@
 import { PropsWithChildren, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { SessionProvider } from "next-auth/react";
+import { Session } from "next-auth";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -32,7 +34,10 @@ function getQueryClient() {
   }
 }
 
-export default function Providers({ children }: PropsWithChildren) {
+export default function Providers({
+  children,
+  session,
+}: PropsWithChildren<{ session: Session }>) {
   // NOTE: Avoid useState when initializing the query client if you don't
   //       have a suspense boundary between this and the code that may
   //       suspend because React will throw away the client on the initial
@@ -40,9 +45,11 @@ export default function Providers({ children }: PropsWithChildren) {
   const queryClient = getQueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-      <ReactQueryDevtools />
-    </QueryClientProvider>
+    <SessionProvider session={session}>
+      <QueryClientProvider client={queryClient}>
+        {children}
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </SessionProvider>
   );
 }

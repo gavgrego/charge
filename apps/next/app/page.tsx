@@ -6,12 +6,6 @@ export default function Home() {
       <div>
         {/* nav */}
         <Header />
-        <div id="hero">PASSPORTER</div>
-        <div id="body">
-          View high-level international travel information for U.S. Citizens
-          <div>SEARCHABLE TABLE of countries</div>
-          {/* data fed from strapi */}
-        </div>
       </div>
     </main>
   );

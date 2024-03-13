@@ -3,6 +3,7 @@
 import { useGetCharges } from "../data/hooks/useCharges";
 import { DataTable } from "../components/datatable";
 import useChargesTable from "../data/hooks/useChargesTable";
+import Loading from "../global/loading";
 
 const Charges = () => {
   const { data, isLoading, isError, error } = useGetCharges();
@@ -12,7 +13,9 @@ const Charges = () => {
     <div>
       {isError && <div>{error.message}</div>}
       {isLoading ? (
-        <div>loading...</div>
+        <div>
+          <Loading />
+        </div>
       ) : (
         <DataTable table={table} pagination={true} />
       )}
