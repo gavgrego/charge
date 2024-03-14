@@ -23,6 +23,7 @@ const useChargesTable = <T,>(data: T[] | undefined) => {
     description = "attributes.description",
     amount = "attributes.amount",
     id = "id",
+    added_by = "attributes.added_by",
   }
 
   const BasicSorting = (column: Column<T, unknown>): JSX.Element => {
@@ -95,6 +96,23 @@ const useChargesTable = <T,>(data: T[] | undefined) => {
             </span>
           </div>
         );
+      },
+    },
+    {
+      id: ColAccessors.added_by,
+      accessorKey: ColAccessors.added_by,
+      enableSorting: true,
+      header: ({ column }) => {
+        return (
+          <Button variant="ghost" onClick={() => column.toggleSorting()}>
+            Added By
+            <BasicSorting {...column} />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const value: number = row.getValue(ColAccessors.added_by);
+        return <div className="font-medium">{value}</div>;
       },
     },
     {

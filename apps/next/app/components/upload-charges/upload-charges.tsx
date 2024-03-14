@@ -1,25 +1,34 @@
-import { useAddCharge, tempParsed } from "../../data/hooks/useCharges";
+import { useAddCharge } from "../../data/hooks/useCharges";
 import Papa, { ParseResult } from "papaparse";
 import { useCallback, useEffect, useState } from "react";
 
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import Loading from "../../global/loading";
+import { useSession } from "next-auth/react";
+import { Charge } from "../../../data/api/documentation.schemas";
 
 const UploadCharges = () => {
   const [file, setFile] = useState<File | undefined>();
   const { mutateAsync, isPending } = useAddCharge();
+  const { data: session } = useSession();
+  console.log(session);
 
   const parse = useCallback(() => {
     Papa.parse(file as File, {
-      complete: function (results: ParseResult<tempParsed>) {
+      complete: function (results: ParseResult<Charge>) {
         const charges = results.data;
         charges.forEach((charge, index) => {
-          mutateAsync({ ...charge });
+          mutateAsync({
+            added_by: session.user.name,
+            date: charge[0],
+            description: charge[1],
+            amount: charge[2],
+          });
         });
       },
     });
-  }, [file, mutateAsync]);
+  }, [file, mutateAsync, session?.user]);
 
   useEffect(() => {
     if (file) {
@@ -44,15 +53,17 @@ const UploadCharges = () => {
           <Loading />
         </div>
       ) : (
-        <>
-          <Label htmlFor="picture">Upload some charges!</Label>
-          <Input
-            id="picture"
-            type="file"
-            onChange={handleOnChange}
-            accept=".csv"
-          />
-        </>
+        session && (
+          <>
+            <Label htmlFor="picture">Upload some charges!</Label>
+            <Input
+              id="picture"
+              type="file"
+              onChange={handleOnChange}
+              accept=".csv"
+            />
+          </>
+        )
       )}
     </div>
   );

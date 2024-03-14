@@ -367,16 +367,16 @@ export interface ApiChargeCharge extends Schema.CollectionType {
   info: {
     singularName: 'charge';
     pluralName: 'charges';
-    displayName: 'charge';
-    description: '';
+    displayName: 'Charge';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    description: Attribute.String & Attribute.Required;
-    amount: Attribute.Decimal;
+    description: Attribute.String;
     date: Attribute.Date;
+    amount: Attribute.Decimal;
+    added_by: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

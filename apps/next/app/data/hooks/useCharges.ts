@@ -5,27 +5,12 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import { Charge } from "../../../data/api/documentation.schemas";
 import dayjs from "dayjs";
-
-export type Charge = {
-  attributes: {
-    description: string;
-    date: Date;
-    amount: number;
-  };
-  id: number;
-};
 
 export type ChargeStrapi = Charge[];
 
-// get better typings/http from back-end when Orval is set up
-export type tempParsed = {
-  0: string;
-  1: string;
-  2: string;
-};
-
-export const addCharge = async (data: Charge | Record<string, any>) => {
+export const addCharge = async (data: { data: Charge }) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/charges`,
     {
@@ -83,17 +68,21 @@ export const getCharges = async (month?: string, year?: string) => {
 };
 
 export const useAddCharge = (
-  data?: tempParsed
-): UseMutationResult<tempParsed, Error, tempParsed, unknown> => {
+  // TODO
+  // can data be typed better? papaparse only sets object keys as numbers, would be nice to be mapped to Charge type from Orval somehow
+  data?: Charge
+): UseMutationResult<Charge, Error, Charge, unknown> => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (data) => {
+      console.log(data);
       return addCharge({
         data: {
-          date: dayjs(data?.[0]).toDate(),
-          description: data?.[1] || "",
-          amount: Number(data?.[2]) || 0,
+          date: dayjs(data.date).format("YYYY-MM-DD").toString() || "",
+          description: data.description,
+          amount: Number(data.amount),
+          added_by: data.added_by,
         },
       });
     },

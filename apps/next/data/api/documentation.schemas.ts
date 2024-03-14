@@ -75,6 +75,7 @@ export type ChargeCreatedBy = {
 };
 
 export interface Charge {
+  added_by?: string;
   amount?: number;
   createdAt?: string;
   createdBy?: ChargeCreatedBy;
@@ -290,6 +291,7 @@ export interface ChargeListResponse {
 }
 
 export type ChargeRequestData = {
+  added_by?: string;
   amount?: number;
   date?: string;
   description: string;

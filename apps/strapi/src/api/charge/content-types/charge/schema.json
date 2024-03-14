@@ -4,8 +4,7 @@
   "info": {
     "singularName": "charge",
     "pluralName": "charges",
-    "displayName": "charge",
-    "description": ""
+    "displayName": "Charge"
   },
   "options": {
     "draftAndPublish": true
@@ -13,14 +12,16 @@
   "pluginOptions": {},
   "attributes": {
     "description": {
-      "type": "string",
-      "required": true
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
     },
     "amount": {
       "type": "decimal"
     },
-    "date": {
-      "type": "date"
+    "added_by": {
+      "type": "string"
     }
   }
 }
