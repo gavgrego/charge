@@ -74,7 +74,6 @@ export const useAddCharge = (
 
   return useMutation({
     mutationFn: (data) => {
-      console.log(data);
       return addCharge({
         data: {
           date: dayjs(data.date).format("YYYY-MM-DD").toString() || "",

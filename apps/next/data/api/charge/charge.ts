@@ -4,51 +4,343 @@
  * DOCUMENTATION
  * OpenAPI spec version: 1.0.0
  */
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type {
+  MutationFunction,
+  QueryFunction,
+  QueryKey,
+  UseMutationOptions,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query";
 import axios from "axios";
-import type { AxiosRequestConfig, AxiosResponse } from "axios";
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import type {
   ChargeListResponse,
   ChargeRequest,
   ChargeResponse,
+  Error,
   GetChargesParams,
 } from "../documentation.schemas";
 
-export const getCharges = <TData = AxiosResponse<ChargeListResponse>>(
+export const getCharges = (
   params?: GetChargesParams,
   options?: AxiosRequestConfig
-): Promise<TData> => {
+): Promise<AxiosResponse<ChargeListResponse>> => {
   return axios.get(`/charges`, {
     ...options,
     params: { ...params, ...options?.params },
   });
 };
-export const postCharges = <TData = AxiosResponse<ChargeResponse>>(
+
+export const getGetChargesQueryKey = (params?: GetChargesParams) => {
+  return [`/charges`, ...(params ? [params] : [])] as const;
+};
+
+export const getGetChargesQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCharges>>,
+  TError = AxiosError<Error>
+>(
+  params?: GetChargesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getCharges>>, TError, TData>
+    >;
+    axios?: AxiosRequestConfig;
+  }
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetChargesQueryKey(params);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getCharges>>> = ({
+    signal,
+  }) => getCharges(params, { signal, ...axiosOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCharges>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetChargesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCharges>>
+>;
+export type GetChargesQueryError = AxiosError<Error>;
+
+export const useGetCharges = <
+  TData = Awaited<ReturnType<typeof getCharges>>,
+  TError = AxiosError<Error>
+>(
+  params?: GetChargesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getCharges>>, TError, TData>
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetChargesQueryOptions(params, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+export const postCharges = (
   chargeRequest: ChargeRequest,
   options?: AxiosRequestConfig
-): Promise<TData> => {
+): Promise<AxiosResponse<ChargeResponse>> => {
   return axios.post(`/charges`, chargeRequest, options);
 };
-export const getChargesId = <TData = AxiosResponse<ChargeResponse>>(
+
+export const getPostChargesMutationOptions = <
+  TError = AxiosError<Error>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postCharges>>,
+    TError,
+    { data: ChargeRequest },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postCharges>>,
+  TError,
+  { data: ChargeRequest },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postCharges>>,
+    { data: ChargeRequest }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return postCharges(data, axiosOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type PostChargesMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postCharges>>
+>;
+export type PostChargesMutationBody = ChargeRequest;
+export type PostChargesMutationError = AxiosError<Error>;
+
+export const usePostCharges = <
+  TError = AxiosError<Error>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postCharges>>,
+    TError,
+    { data: ChargeRequest },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}) => {
+  const mutationOptions = getPostChargesMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const getChargesId = (
   id: number,
   options?: AxiosRequestConfig
-): Promise<TData> => {
+): Promise<AxiosResponse<ChargeResponse>> => {
   return axios.get(`/charges/${id}`, options);
 };
-export const putChargesId = <TData = AxiosResponse<ChargeResponse>>(
+
+export const getGetChargesIdQueryKey = (id: number) => {
+  return [`/charges/${id}`] as const;
+};
+
+export const getGetChargesIdQueryOptions = <
+  TData = Awaited<ReturnType<typeof getChargesId>>,
+  TError = AxiosError<Error>
+>(
+  id: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getChargesId>>, TError, TData>
+    >;
+    axios?: AxiosRequestConfig;
+  }
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetChargesIdQueryKey(id);
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getChargesId>>> = ({
+    signal,
+  }) => getChargesId(id, { signal, ...axiosOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getChargesId>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetChargesIdQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getChargesId>>
+>;
+export type GetChargesIdQueryError = AxiosError<Error>;
+
+export const useGetChargesId = <
+  TData = Awaited<ReturnType<typeof getChargesId>>,
+  TError = AxiosError<Error>
+>(
+  id: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<Awaited<ReturnType<typeof getChargesId>>, TError, TData>
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } => {
+  const queryOptions = getGetChargesIdQueryOptions(id, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+};
+
+export const putChargesId = (
   id: number,
   chargeRequest: ChargeRequest,
   options?: AxiosRequestConfig
-): Promise<TData> => {
+): Promise<AxiosResponse<ChargeResponse>> => {
   return axios.put(`/charges/${id}`, chargeRequest, options);
 };
-export const deleteChargesId = <TData = AxiosResponse<number>>(
+
+export const getPutChargesIdMutationOptions = <
+  TError = AxiosError<Error>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof putChargesId>>,
+    TError,
+    { id: number; data: ChargeRequest },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof putChargesId>>,
+  TError,
+  { id: number; data: ChargeRequest },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof putChargesId>>,
+    { id: number; data: ChargeRequest }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return putChargesId(id, data, axiosOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type PutChargesIdMutationResult = NonNullable<
+  Awaited<ReturnType<typeof putChargesId>>
+>;
+export type PutChargesIdMutationBody = ChargeRequest;
+export type PutChargesIdMutationError = AxiosError<Error>;
+
+export const usePutChargesId = <
+  TError = AxiosError<Error>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof putChargesId>>,
+    TError,
+    { id: number; data: ChargeRequest },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}) => {
+  const mutationOptions = getPutChargesIdMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const deleteChargesId = (
   id: number,
   options?: AxiosRequestConfig
-): Promise<TData> => {
+): Promise<AxiosResponse<number>> => {
   return axios.delete(`/charges/${id}`, options);
 };
-export type GetChargesResult = AxiosResponse<ChargeListResponse>;
-export type PostChargesResult = AxiosResponse<ChargeResponse>;
-export type GetChargesIdResult = AxiosResponse<ChargeResponse>;
-export type PutChargesIdResult = AxiosResponse<ChargeResponse>;
-export type DeleteChargesIdResult = AxiosResponse<number>;
+
+export const getDeleteChargesIdMutationOptions = <
+  TError = AxiosError<Error>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteChargesId>>,
+    TError,
+    { id: number },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteChargesId>>,
+  TError,
+  { id: number },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteChargesId>>,
+    { id: number }
+  > = (props) => {
+    const { id } = props ?? {};
+
+    return deleteChargesId(id, axiosOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type DeleteChargesIdMutationResult = NonNullable<
+  Awaited<ReturnType<typeof deleteChargesId>>
+>;
+
+export type DeleteChargesIdMutationError = AxiosError<Error>;
+
+export const useDeleteChargesId = <
+  TError = AxiosError<Error>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteChargesId>>,
+    TError,
+    { id: number },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}) => {
+  const mutationOptions = getDeleteChargesIdMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};

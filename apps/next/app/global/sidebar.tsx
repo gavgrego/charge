@@ -13,11 +13,6 @@ const Sidebar = () => {
         <Cardholder size={128} weight="fill" />
         <ul>
           <li>
-            <a href="/charges" className="font-semibold">
-              Charges
-            </a>
-          </li>
-          <li>
             <a href="charts" className="font-semibold">
               Charts
             </a>

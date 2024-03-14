@@ -9,8 +9,6 @@ const ChargesPage = async (): Promise<React.ReactElement> => {
   const queryClient = new QueryClient();
 
   return (
-    // Neat! Serialization is now as easy as passing props.
-    // HydrationBoundary is a Client Component, so hydration will happen there.
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Charges />
     </HydrationBoundary>

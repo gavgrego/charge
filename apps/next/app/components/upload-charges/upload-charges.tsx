@@ -12,7 +12,6 @@ const UploadCharges = () => {
   const [file, setFile] = useState<File | undefined>();
   const { mutateAsync, isPending } = useAddCharge();
   const { data: session } = useSession();
-  console.log(session);
 
   const parse = useCallback(() => {
     Papa.parse(file as File, {

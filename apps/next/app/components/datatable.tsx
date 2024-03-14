@@ -23,7 +23,7 @@ import {
   CaretLeft,
   CaretRight,
 } from "@phosphor-icons/react";
-import { Charge } from "../data/hooks/useCharges";
+import { Charge } from "../../data/api/documentation.schemas";
 
 type DataTableProps<TData, TValue> = {
   table: TTable<Charge>;
@@ -35,6 +35,7 @@ export function DataTable<TData, TValue>({
   table,
   ...props
 }: DataTableProps<TData, TValue>) {
+  console.log(table.getCanNextPage());
   return (
     <>
       <div>
@@ -109,7 +110,9 @@ export function DataTable<TData, TValue>({
               <PaginationItem className="cursor-pointer">
                 <CaretRight
                   size={24}
-                  onClick={() => table.nextPage()}
+                  onClick={
+                    table.getCanNextPage() ? () => table.nextPage() : null
+                  }
                   aria-disabled={table.getCanNextPage()}
                 />
               </PaginationItem>
