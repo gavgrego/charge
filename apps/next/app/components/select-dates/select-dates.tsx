@@ -14,7 +14,10 @@ const SelectDates = ({}) => {
 
   return (
     <div className="flex flex-row gap-2">
-      <Select onValueChange={(value) => setMonth(value)}>
+      <Select
+        onValueChange={(value) => setMonth(value)}
+        defaultValue={useStore((state) => state.month)}
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Month" />
         </SelectTrigger>
@@ -33,7 +36,10 @@ const SelectDates = ({}) => {
           <SelectItem value="12">December</SelectItem>
         </SelectContent>
       </Select>
-      <Select onValueChange={(value) => setYear(value)}>
+      <Select
+        onValueChange={(value) => setYear(value)}
+        defaultValue={useStore((state) => state.year)}
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Year" />
         </SelectTrigger>

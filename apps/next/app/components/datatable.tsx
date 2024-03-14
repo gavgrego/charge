@@ -35,7 +35,6 @@ export function DataTable<TData, TValue>({
   table,
   ...props
 }: DataTableProps<TData, TValue>) {
-  console.log(table.getCanNextPage());
   return (
     <>
       <div>
