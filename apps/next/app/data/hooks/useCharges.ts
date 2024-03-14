@@ -106,8 +106,8 @@ export const useDeleteCharge = (): UseMutationResult<
 };
 
 export const useGetCharges = (
-  month: string = dayjs(new Date()).format("MM"),
-  year: string = dayjs(new Date()).format("YYYY")
+  month: string,
+  year: string
 ): UseQueryResult<Charge[], Error> => {
   return useQuery({
     queryKey: ["getCharges", month, year],
