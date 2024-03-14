@@ -80,7 +80,7 @@ export interface Charge {
   createdAt?: string;
   createdBy?: ChargeCreatedBy;
   date?: string;
-  description: string;
+  description?: string;
   publishedAt?: string;
   updatedAt?: string;
   updatedBy?: ChargeUpdatedBy;
@@ -294,7 +294,7 @@ export type ChargeRequestData = {
   added_by?: string;
   amount?: number;
   date?: string;
-  description: string;
+  description?: string;
 };
 
 export interface ChargeRequest {

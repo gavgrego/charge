@@ -68,8 +68,6 @@ export const getCharges = async (month?: string, year?: string) => {
 };
 
 export const useAddCharge = (
-  // TODO
-  // can data be typed better? papaparse only sets object keys as numbers, would be nice to be mapped to Charge type from Orval somehow
   data?: Charge
 ): UseMutationResult<Charge, Error, Charge, unknown> => {
   const queryClient = useQueryClient();

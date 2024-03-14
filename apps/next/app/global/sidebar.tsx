@@ -3,11 +3,12 @@
 import { Cardholder } from "@phosphor-icons/react";
 import UploadCharges from "../components/upload-charges/upload-charges";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { Button } from "../../components/ui/button";
 
 const Sidebar = () => {
   const { data: session } = useSession();
   return (
-    <div>
+    <div className="min-w-[300px]">
       <div className="flex flex-col gap-2 px-8">
         <Cardholder size={128} weight="fill" />
         <ul>
@@ -23,12 +24,12 @@ const Sidebar = () => {
           </li>
         </ul>
         <UploadCharges />
+        {!session ? (
+          <Button onClick={() => signIn()}>Login</Button>
+        ) : (
+          <Button onClick={() => signOut()}>Logout</Button>
+        )}
       </div>
-      {!session ? (
-        <button onClick={() => signIn()}>Login</button>
-      ) : (
-        <button onClick={() => signOut()}>Logout</button>
-      )}
     </div>
   );
 };
