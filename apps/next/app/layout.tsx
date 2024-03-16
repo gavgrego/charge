@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>
+        <Providers session={undefined}>
           <div className="flex flex-row gap-10 items-start">
             <Sidebar />
             <div className="my-8">{children}</div>

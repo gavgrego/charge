@@ -8,16 +8,12 @@ import {
 } from "../../../components/ui/select";
 import { useStore } from "../../data/store/useStore";
 
-const SelectDates = ({}) => {
-  const setMonth = useStore((state) => state.setMonth);
-  const setYear = useStore((state) => state.setYear);
+const SelectDates = () => {
+  const { setMonth, setYear } = useStore();
 
   return (
     <div className="flex flex-row gap-2">
-      <Select
-        onValueChange={(value) => setMonth(value)}
-        defaultValue={useStore((state) => state.month)}
-      >
+      <Select onValueChange={(value) => setMonth(value)}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Month" />
         </SelectTrigger>
@@ -36,10 +32,7 @@ const SelectDates = ({}) => {
           <SelectItem value="12">December</SelectItem>
         </SelectContent>
       </Select>
-      <Select
-        onValueChange={(value) => setYear(value)}
-        defaultValue={useStore((state) => state.year)}
-      >
+      <Select onValueChange={(value) => setYear(value)}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Year" />
         </SelectTrigger>

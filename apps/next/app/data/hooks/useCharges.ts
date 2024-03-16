@@ -50,11 +50,10 @@ export const deleteCharge = async (id: number) => {
   return await response.json();
 };
 
-export const getCharges = async (month?: string, year?: string) => {
-  // get only current year and month by default
-
+export const getCharges = async (month: string, year: string) => {
+  const lastDayOfMonth = dayjs(`${year}-${month}-01`).endOf("month").date();
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/charges/?filters[date][$gte]=${year}-${month}-01&filters[date][$lte]=${year}-${month}-31`,
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/charges/?filters[date][$gte]=${year}-${month}-01&filters[date][$lte]=${year}-${month}-${lastDayOfMonth}`,
     {
       method: "GET",
       headers: {

@@ -11,6 +11,6 @@ type Store = {
 export const useStore = create<Store>((set) => ({
   month: dayjs(new Date()).format("MM"),
   year: dayjs(new Date()).format("YYYY"),
-  setMonth: (value: string) => set({ month: value }),
-  setYear: (value: string) => set({ year: value }),
+  setMonth: (month: string) => set(() => ({ month })),
+  setYear: (year: string) => set(() => ({ year })),
 }));
