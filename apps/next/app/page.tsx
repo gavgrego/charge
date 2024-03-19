@@ -13,7 +13,7 @@ export default function Home() {
   const { table } = useChargesTable(data);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-18">
+    <main className="flex min-h-screen flex-col items-center gap-4 p-18">
       {isError && <div>{error.message}</div>}
 
       {isLoading ? (

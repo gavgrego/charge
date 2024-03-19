@@ -105,7 +105,10 @@ export function DataTable<TData, TValue>({
                   aria-disabled={table.getCanPreviousPage()}
                 />
               </PaginationItem>
-
+              <strong>
+                {table.getState().pagination.pageIndex + 1} of{" "}
+                {table.getPageCount().toLocaleString()}
+              </strong>
               <PaginationItem className="cursor-pointer">
                 <CaretRight
                   size={24}
