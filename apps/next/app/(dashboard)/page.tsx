@@ -1,10 +1,10 @@
 "use client";
 
 import dayjs from "dayjs";
-import { DataTable } from "./components/datatable";
-import { useGetCharges } from "./data/hooks/useCharges";
-import useChargesTable from "./data/hooks/useChargesTable";
-import { useStore } from "./data/store/useStore";
+import { DataTable } from "../components/datatable";
+import { useGetCharges } from "../data/hooks/useCharges";
+import useChargesTable from "../data/hooks/useChargesTable";
+import { useStore } from "../data/store/useStore";
 
 export default function Home() {
   const { month, year } = useStore();

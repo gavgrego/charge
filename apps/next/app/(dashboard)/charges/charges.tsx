@@ -1,8 +1,8 @@
 "use client";
 
-import { useGetCharges } from "../data/hooks/useCharges";
-import { DataTable } from "../components/datatable";
-import useChargesTable from "../data/hooks/useChargesTable";
+import { useGetCharges } from "../../data/hooks/useCharges";
+import { DataTable } from "../../components/datatable";
+import useChargesTable from "../../data/hooks/useChargesTable";
 import dayjs from "dayjs";
 
 const Charges = () => {
