@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2024-03-20T23:18:36.434Z"
+    "x-generation-date": "2024-03-21T17:30:10.607Z"
   },
   "x-strapi-config": {
     "plugins": [],
@@ -105,6 +105,13 @@
               },
               "added_by": {
                 "type": "string"
+              },
+              "card_type": {
+                "type": "string",
+                "enum": [
+                  "amex",
+                  "chase"
+                ]
               }
             }
           }
@@ -172,6 +179,13 @@
           },
           "added_by": {
             "type": "string"
+          },
+          "card_type": {
+            "type": "string",
+            "enum": [
+              "amex",
+              "chase"
+            ]
           },
           "createdAt": {
             "type": "string",

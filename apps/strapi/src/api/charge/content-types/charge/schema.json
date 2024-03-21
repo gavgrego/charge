@@ -4,7 +4,8 @@
   "info": {
     "singularName": "charge",
     "pluralName": "charges",
-    "displayName": "Charge"
+    "displayName": "Charge",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -22,6 +23,13 @@
     },
     "added_by": {
       "type": "string"
+    },
+    "card_type": {
+      "type": "enumeration",
+      "enum": [
+        "amex",
+        "chase"
+      ]
     }
   }
 }

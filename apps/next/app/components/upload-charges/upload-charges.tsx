@@ -6,7 +6,10 @@ import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import Loading from "../../global/loading";
 import { useSession } from "next-auth/react";
-import { Charge } from "../../../data/api/documentation.schemas";
+import {
+  Charge,
+  ChargeCardType,
+} from "../../../data/api/documentation.schemas";
 import {
   Select,
   SelectContent,
@@ -14,9 +17,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../components/ui/select";
+import { Button } from "../../../components/ui/button";
 
 const UploadCharges = () => {
   const [file, setFile] = useState<File | undefined>();
+  const [cardType, setCardType] = useState<ChargeCardType>();
+
   const { mutateAsync, isPending } = useAddCharge();
   const { data: session } = useSession();
 
@@ -30,11 +36,12 @@ const UploadCharges = () => {
             date: charge[0],
             description: charge[1],
             amount: charge[2],
+            card_type: cardType,
           });
         });
       },
     });
-  }, [file, mutateAsync, session?.user]);
+  }, [cardType, file, mutateAsync, session.user.name]);
 
   async function handleOnChange(
     e: React.FormEvent<HTMLInputElement>
@@ -45,6 +52,8 @@ const UploadCharges = () => {
 
     setFile(target.files[0]);
   }
+
+  console.log(cardType);
 
   return (
     <div className="grid w-full max-w-sm items-center gap-1.5">
@@ -62,8 +71,8 @@ const UploadCharges = () => {
               onChange={handleOnChange}
               accept=".csv"
             />
-            <Select>
-              <SelectTrigger className="w-[180px]">
+            <Select onValueChange={(e: ChargeCardType) => setCardType(e)}>
+              <SelectTrigger>
                 <SelectValue placeholder="Select a Card Type..." />
               </SelectTrigger>
               <SelectContent>
@@ -79,6 +88,7 @@ const UploadCharges = () => {
                 </SelectItem>
               </SelectContent>
             </Select>
+            <Button onClick={parse}>Upload</Button>
           </>
         )
       )}

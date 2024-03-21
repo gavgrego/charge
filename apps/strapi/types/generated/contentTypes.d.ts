@@ -368,6 +368,7 @@ export interface ApiChargeCharge extends Schema.CollectionType {
     singularName: 'charge';
     pluralName: 'charges';
     displayName: 'Charge';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -377,6 +378,7 @@ export interface ApiChargeCharge extends Schema.CollectionType {
     date: Attribute.Date;
     amount: Attribute.Decimal;
     added_by: Attribute.String;
+    card_type: Attribute.Enumeration<['amex', 'chase']>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

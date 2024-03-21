@@ -49,14 +49,27 @@ export type GetChargesParams = {
 
 export type ChargeResponseMeta = { [key: string]: any };
 
-export interface ChargeResponseDataObject {
-  attributes?: Charge;
-  id?: number;
-}
-
 export interface ChargeResponse {
   data?: ChargeResponseDataObject;
   meta?: ChargeResponseMeta;
+}
+
+export interface Charge {
+  added_by?: string;
+  amount?: number;
+  card_type?: ChargeCardType;
+  createdAt?: string;
+  createdBy?: ChargeCreatedBy;
+  date?: string;
+  description?: string;
+  publishedAt?: string;
+  updatedAt?: string;
+  updatedBy?: ChargeUpdatedBy;
+}
+
+export interface ChargeResponseDataObject {
+  attributes?: Charge;
+  id?: number;
 }
 
 export type ChargeUpdatedByDataAttributes = { [key: string]: any };
@@ -70,21 +83,14 @@ export type ChargeUpdatedBy = {
   data?: ChargeUpdatedByData;
 };
 
+export type ChargeCreatedByData = {
+  attributes?: ChargeCreatedByDataAttributes;
+  id?: number;
+};
+
 export type ChargeCreatedBy = {
   data?: ChargeCreatedByData;
 };
-
-export interface Charge {
-  added_by?: string;
-  amount?: number;
-  createdAt?: string;
-  createdBy?: ChargeCreatedBy;
-  date?: string;
-  description?: string;
-  publishedAt?: string;
-  updatedAt?: string;
-  updatedBy?: ChargeUpdatedBy;
-}
 
 export type ChargeCreatedByDataAttributesUpdatedByDataAttributes = {
   [key: string]: any;
@@ -125,11 +131,6 @@ export type ChargeCreatedByDataAttributes = {
   username?: string;
 };
 
-export type ChargeCreatedByData = {
-  attributes?: ChargeCreatedByDataAttributes;
-  id?: number;
-};
-
 export type ChargeCreatedByDataAttributesRolesDataItemAttributesUsersDataItemAttributes =
   { [key: string]: any };
 
@@ -141,18 +142,6 @@ export type ChargeCreatedByDataAttributesRolesDataItemAttributesUsersDataItem =
 
 export type ChargeCreatedByDataAttributesRolesDataItemAttributesUsers = {
   data?: ChargeCreatedByDataAttributesRolesDataItemAttributesUsersDataItem[];
-};
-
-export type ChargeCreatedByDataAttributesRolesDataItemAttributes = {
-  code?: string;
-  createdAt?: string;
-  createdBy?: ChargeCreatedByDataAttributesRolesDataItemAttributesCreatedBy;
-  description?: string;
-  name?: string;
-  permissions?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissions;
-  updatedAt?: string;
-  updatedBy?: ChargeCreatedByDataAttributesRolesDataItemAttributesUpdatedBy;
-  users?: ChargeCreatedByDataAttributesRolesDataItemAttributesUsers;
 };
 
 export type ChargeCreatedByDataAttributesRolesDataItemAttributesUpdatedByDataAttributes =
@@ -168,20 +157,6 @@ export type ChargeCreatedByDataAttributesRolesDataItemAttributesUpdatedBy = {
   data?: ChargeCreatedByDataAttributesRolesDataItemAttributesUpdatedByData;
 };
 
-export type ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributes =
-  {
-    action?: string;
-    actionParameters?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesActionParameters;
-    conditions?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesConditions;
-    createdAt?: string;
-    createdBy?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesCreatedBy;
-    properties?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesProperties;
-    role?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesRole;
-    subject?: string;
-    updatedAt?: string;
-    updatedBy?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesUpdatedBy;
-  };
-
 export type ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItem =
   {
     attributes?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributes;
@@ -190,6 +165,18 @@ export type ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataI
 
 export type ChargeCreatedByDataAttributesRolesDataItemAttributesPermissions = {
   data?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItem[];
+};
+
+export type ChargeCreatedByDataAttributesRolesDataItemAttributes = {
+  code?: string;
+  createdAt?: string;
+  createdBy?: ChargeCreatedByDataAttributesRolesDataItemAttributesCreatedBy;
+  description?: string;
+  name?: string;
+  permissions?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissions;
+  updatedAt?: string;
+  updatedBy?: ChargeCreatedByDataAttributesRolesDataItemAttributesUpdatedBy;
+  users?: ChargeCreatedByDataAttributesRolesDataItemAttributesUsers;
 };
 
 export type ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesUpdatedByDataAttributes =
@@ -204,6 +191,20 @@ export type ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataI
 export type ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesUpdatedBy =
   {
     data?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesUpdatedByData;
+  };
+
+export type ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributes =
+  {
+    action?: string;
+    actionParameters?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesActionParameters;
+    conditions?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesConditions;
+    createdAt?: string;
+    createdBy?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesCreatedBy;
+    properties?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesProperties;
+    role?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesRole;
+    subject?: string;
+    updatedAt?: string;
+    updatedBy?: ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesUpdatedBy;
   };
 
 export type ChargeCreatedByDataAttributesRolesDataItemAttributesPermissionsDataItemAttributesRoleDataAttributes =
@@ -269,6 +270,15 @@ export type ChargeCreatedByDataAttributesCreatedBy = {
   data?: ChargeCreatedByDataAttributesCreatedByData;
 };
 
+export type ChargeCardType =
+  (typeof ChargeCardType)[keyof typeof ChargeCardType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ChargeCardType = {
+  amex: "amex",
+  chase: "chase",
+} as const;
+
 export type ChargeListResponseMetaPagination = {
   page?: number;
   pageCount?: number;
@@ -290,9 +300,19 @@ export interface ChargeListResponse {
   meta?: ChargeListResponseMeta;
 }
 
+export type ChargeRequestDataCardType =
+  (typeof ChargeRequestDataCardType)[keyof typeof ChargeRequestDataCardType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ChargeRequestDataCardType = {
+  amex: "amex",
+  chase: "chase",
+} as const;
+
 export type ChargeRequestData = {
   added_by?: string;
   amount?: number;
+  card_type?: ChargeRequestDataCardType;
   date?: string;
   description?: string;
 };
