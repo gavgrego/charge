@@ -1,12 +1,19 @@
 import { useAddCharge } from "../../data/hooks/useCharges";
 import Papa, { ParseResult } from "papaparse";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import Loading from "../../global/loading";
 import { useSession } from "next-auth/react";
 import { Charge } from "../../../data/api/documentation.schemas";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../../components/ui/select";
 
 const UploadCharges = () => {
   const [file, setFile] = useState<File | undefined>();
@@ -28,12 +35,6 @@ const UploadCharges = () => {
       },
     });
   }, [file, mutateAsync, session?.user]);
-
-  useEffect(() => {
-    if (file) {
-      parse();
-    }
-  }, [file, parse]);
 
   async function handleOnChange(
     e: React.FormEvent<HTMLInputElement>
@@ -61,6 +62,23 @@ const UploadCharges = () => {
               onChange={handleOnChange}
               accept=".csv"
             />
+            <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select a Card Type..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="amex">American Express</SelectItem>
+                <SelectItem value="chase" disabled>
+                  Chase
+                </SelectItem>
+                <SelectItem value="alaska" disabled>
+                  Alaska Airlines
+                </SelectItem>
+                <SelectItem value="american" disabled>
+                  American Airlines
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </>
         )
       )}
