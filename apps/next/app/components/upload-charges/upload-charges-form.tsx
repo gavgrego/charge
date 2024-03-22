@@ -29,25 +29,21 @@ const UploadChargesForm = ({ session, setOpen }: UploadChargesFormProps) => {
   const { mutateAsync } = useAddCharge();
 
   const parse = useCallback(() => {
-    new Promise((resolve) => {
-      resolve(
-        Papa.parse(file as File, {
-          complete: function (results: ParseResult<Charge>) {
-            const charges = results.data;
-            charges.forEach((charge, index) => {
-              mutateAsync({
-                added_by: session.user.name,
-                date: charge[0],
-                description: charge[1],
-                amount: charge[2],
-                card_type: cardType,
-              });
-            });
-          },
-        })
-      );
-    }).then(() => {
-      setOpen(false);
+    Papa.parse(file as File, {
+      complete: function (results: ParseResult<Charge>) {
+        const charges = results.data;
+        charges.forEach(async (charge, index) => {
+          await mutateAsync({
+            added_by: session.user.name,
+            date: charge[0],
+            description: charge[1],
+            amount: charge[2],
+            card_type: cardType,
+          }).then(() => {
+            setOpen(false);
+          });
+        });
+      },
     });
   }, [cardType, file, mutateAsync, session.user.name, setOpen]);
 
