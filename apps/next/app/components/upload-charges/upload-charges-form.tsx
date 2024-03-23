@@ -1,4 +1,3 @@
-import { Label } from "@radix-ui/react-label";
 import {
   Select,
   SelectTrigger,
@@ -33,22 +32,23 @@ const UploadChargesForm = ({ session, setOpen }: UploadChargesFormProps) => {
       complete: function (results: ParseResult<Charge>) {
         const charges = results.data;
         const mutations = [];
-        charges.forEach(async (charge, index) => {
-          // this is a hack to skip the first row of the csv file
-          if (index === 0) return;
-          mutations.push(
-            await mutateAsync({
-              added_by: session.user.name,
-              date: charge[0],
-              description: charge[1],
-              amount: charge[2],
-              card_type: cardType,
-            })
-          );
 
-          Promise.allSettled(mutations).then(() => {
-            setOpen(false);
-          });
+        Promise.allSettled(
+          charges.map(async (charge, index) => {
+            // this is a hack to skip the first row of the csv file
+            if (index === 0) return;
+            mutations.push(
+              await mutateAsync({
+                added_by: session.user.name,
+                date: charge[0],
+                description: charge[1],
+                amount: charge[2],
+                card_type: cardType,
+              })
+            );
+          })
+        ).then(() => {
+          setOpen(false);
         });
       },
     });
