@@ -31,21 +31,18 @@ const UploadChargesForm = ({ session, setOpen }: UploadChargesFormProps) => {
     Papa.parse(file as File, {
       complete: (results: ParseResult<Charge>) => {
         const charges = results.data;
-        const mutations = [];
 
         Promise.allSettled(
           charges.map(async (charge, index) => {
             // this is a hack to skip the first row of the csv file
             if (index === 0) return;
-            mutations.push(
-              await mutateAsync({
-                added_by: session.user.name,
-                date: charge[0],
-                description: charge[1],
-                amount: charge[2],
-                card_type: cardType,
-              })
-            );
+            await mutateAsync({
+              added_by: session.user.name,
+              date: charge[0],
+              description: charge[1],
+              amount: charge[2],
+              card_type: cardType,
+            });
           })
         ).then(() => {
           setOpen(false);
