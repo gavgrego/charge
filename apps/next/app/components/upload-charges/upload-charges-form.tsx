@@ -29,7 +29,7 @@ const UploadChargesForm = ({ session, setOpen }: UploadChargesFormProps) => {
 
   const parse = useCallback(() => {
     Papa.parse(file as File, {
-      complete: function (results: ParseResult<Charge>) {
+      complete: (results: ParseResult<Charge>) => {
         const charges = results.data;
         const mutations = [];
 
