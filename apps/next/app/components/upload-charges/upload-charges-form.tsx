@@ -25,18 +25,18 @@ const UploadChargesForm = ({ session, setOpen }: UploadChargesFormProps) => {
   const [file, setFile] = useState<File | undefined>();
   const [cardType, setCardType] = useState<ChargeCardType>();
 
-  const { mutateAsync } = useAddCharge();
+  const { mutateAsync: addCharge } = useAddCharge();
 
   const parse = useCallback(() => {
     Papa.parse(file as File, {
       complete: (results: ParseResult<Charge>) => {
         const charges = results.data;
 
-        Promise.allSettled(
+        Promise.all(
           charges.map(async (charge, index) => {
-            // this is a hack to skip the first row of the csv file
+            // this is a hack to skip the first row of the csv file, which is just a header
             if (index === 0) return;
-            await mutateAsync({
+            await addCharge({
               added_by: session.user.name,
               date: charge[0],
               description: charge[1],
@@ -49,7 +49,7 @@ const UploadChargesForm = ({ session, setOpen }: UploadChargesFormProps) => {
         });
       },
     });
-  }, [cardType, file, mutateAsync, session.user.name, setOpen]);
+  }, [addCharge, cardType, file, session.user.name, setOpen]);
 
   async function handleOnChange(
     e: React.FormEvent<HTMLInputElement>
